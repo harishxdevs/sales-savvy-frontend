@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./assets/styles.css";
+import { API_BASE, checkBackend } from './api';
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [backendUp, setBackendUp] = useState(null); // null = checking
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let alive = true;
+    checkBackend().then((ok) => alive && setBackendUp(ok));
+    return () => { alive = false; };
+  }, []);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -18,7 +26,7 @@ export default function LoginPage() {
     }
 
     try {
-      const response = await fetch("http://localhost:9090/api/auth/login", {
+      const response = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +41,7 @@ export default function LoginPage() {
         if (data.role === "CUSTOMER") {
           navigate("/customerhome");
         } else if (data.role === "ADMIN") {
-          navigate("/adminhome");
+          navigate("/admindashboard");
         } else {
           navigate("/"); // Redirect to a default page if role is unknown
         }
@@ -49,6 +57,13 @@ export default function LoginPage() {
 
   return (
     <div className="page-layout">
+      {backendUp === false && (
+        <div className="backend-banner" role="status">
+          <strong>Backend is waking up or offline.</strong> This demo talks to a Spring Boot API at{" "}
+          <code>{API_BASE}</code>. Free hosting sleeps when idle, so give it ~30 seconds and refresh.
+          Source: <a href="https://github.com/harishxdevs/sales-savvy-backend" target="_blank" rel="noreferrer">sales-savvy-backend</a>
+        </div>
+      )}
       <div className="page-container">
         <div className="form-container">
           <h1 className="form-title">Login</h1>

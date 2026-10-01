@@ -771,3 +771,12 @@ font-style: oblique;
 .launch-button:hover {
   background-color: #005a9e;
 }
+
+/* Backend status banner (login page) */
+.backend-banner {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: #fff7ed; color: #7c2d12; border-bottom: 1px solid #fdba74;
+  padding: 10px 16px; font-size: 14px; text-align: center; line-height: 1.5;
+}
+.backend-banner code { background: #ffedd5; padding: 1px 6px; border-radius: 4px; }
+.backend-banner a { color: #9a3412; font-weight: 600; }

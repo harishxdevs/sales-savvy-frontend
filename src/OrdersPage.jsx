@@ -3,6 +3,7 @@ import { CategoryNavigation } from './CategoryNavigation';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import './assets/styles.css';
+import { API_BASE } from './api';
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -22,7 +23,7 @@ export default function OrdersPage() {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch('http://localhost:9090/api/orders', {
+      const response = await fetch(`${API_BASE}/api/orders`, {
         credentials: 'include',
       });
       if (!response.ok) throw new Error('Failed to fetch orders');
@@ -39,7 +40,7 @@ export default function OrdersPage() {
   const fetchCartCount = async () => {
     setIsCartLoading(true); // Set loading state
     try {
-      const response = await fetch(`http://localhost:9090/api/cart/items/count?username=${username}`, {
+      const response = await fetch(`${API_BASE}/api/cart/items/count?username=${username}`, {
         credentials: 'include',
       });
       const count = await response.json();

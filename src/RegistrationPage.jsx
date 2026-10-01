@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import './assets/styles.css';
 import { useNavigate } from 'react';
+import { API_BASE } from './api';
 
 export default function RegistrationPage() {
   const [username, setUsername] = useState('');
@@ -16,7 +17,7 @@ export default function RegistrationPage() {
     setError(null); // Clear previous errors
 
     try {
-      const response = await fetch('http://localhost:9090/api/users/register', {
+      const response = await fetch(`${API_BASE}/api/users/register`, {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json',

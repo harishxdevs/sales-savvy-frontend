@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import useravatar from './useravatar.png';
 import './assets/styles.css';
+import { API_BASE } from './api';
 export function ProfileDropdown({ username }) {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate(); // Initialize useNavigate hook
@@ -11,7 +12,7 @@ export function ProfileDropdown({ username }) {
   };
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:9090/api/auth/logout', {
+      const response = await fetch(`${API_BASE}/api/auth/logout`, {
         method: 'POST', // Use POST as logout often involves session clearing
         credentials: 'include', // Include credentials like cookies for authentication
       });

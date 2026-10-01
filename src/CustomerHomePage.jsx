@@ -4,6 +4,7 @@ import { ProductList } from './ProductList';
 import { Footer } from './Footer';
 import { Header } from './Header';
 import './assets/styles.css';
+import { API_BASE } from './api';
 
 export default function CustomerHomePage() {
   const [products, setProducts] = useState([]);
@@ -23,7 +24,7 @@ export default function CustomerHomePage() {
   const fetchProducts = async (category = '') => {
     try {
       const response = await fetch(
-        `http://localhost:9090/api/products${category ? `?category=${category}` : '?category=Shirts'}`, 
+        `${API_BASE}/api/products${category ? `?category=${category}` : '?category=Shirts'}`, 
         { credentials: 'include' } // Include authToken as a cookie
       );
       const data = await response.json();
@@ -44,7 +45,7 @@ export default function CustomerHomePage() {
   const fetchCartCount = async () => {
     setIsCartLoading(true); // Set loading state
     try {
-      const response = await fetch(`http://localhost:9090/api/cart/items/count?username=${username}`, {
+      const response = await fetch(`${API_BASE}/api/cart/items/count?username=${username}`, {
         credentials: 'include', // Include authToken as a cookie
       });
       const count = await response.json();
@@ -68,7 +69,7 @@ export default function CustomerHomePage() {
       return;
     }
     try {
-      const response = await fetch('http://localhost:9090/api/cart/add', {
+      const response = await fetch(`${API_BASE}/api/cart/add`, {
         credentials: 'include',
         method: 'POST',
         body: JSON.stringify({ username, productId }), // Include username and productId in the request
